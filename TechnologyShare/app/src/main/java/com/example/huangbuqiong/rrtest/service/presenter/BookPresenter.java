@@ -11,6 +11,7 @@ import com.example.huangbuqiong.rrtest.service.view.View;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 

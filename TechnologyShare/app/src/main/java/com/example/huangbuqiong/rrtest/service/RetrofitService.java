@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 /**
- * URL：https://api.douban.com/v2/book/search?q=金瓶梅&tag=&start=0&count=1
+ * URL：https://api.douban.com/v2/book/search?q=禁用&tag=&start=0&count=1
  * Created by huangbuqiong on 2017/10/16.
  */
 

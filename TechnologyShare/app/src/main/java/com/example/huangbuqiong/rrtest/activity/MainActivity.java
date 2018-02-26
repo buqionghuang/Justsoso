@@ -1,4 +1,4 @@
-package com.example.huangbuqiong.rrtest;
+package com.example.huangbuqiong.rrtest.activity;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -12,19 +12,25 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.huangbuqiong.rrtest.R;
+import com.example.huangbuqiong.rrtest.fragment.CameraFragment;
 import com.example.huangbuqiong.rrtest.fragment.MovieFragment;
 import com.example.huangbuqiong.rrtest.service.entity.Book;
 import com.example.huangbuqiong.rrtest.service.entity.Movie;
 import com.example.huangbuqiong.rrtest.service.presenter.BookPresenter;
 import com.example.huangbuqiong.rrtest.service.view.BookView;
+import com.example.huangbuqiong.rrtest.view.AutoWrapTextView;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class MainActivity extends AppCompatActivity {
-    private DrawerLayout mDrawerLayout;
     private BookPresenter mBookPresenter = new BookPresenter(this);
     private Context mContext;
     private String mDataType;
-    private ProgressBar mPorgress;
+    private ProgressBar mProgressBar;
+    private DrawerLayout mDrawerLayout;
     private MovieFragment mFragment;
 
     private BookView mBookView = new BookView() {
@@ -34,52 +40,27 @@ public class MainActivity extends AppCompatActivity {
                 mFragment.setData((Movie)obj);
 //                Toast.makeText(mContext, ((Movie)obj).getSubjects().toString(), Toast.LENGTH_SHORT).show();
             } else if (mDataType.equals("书籍")) {
-                Toast.makeTgiext(mContext, ((Book)obj).getBooks().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, ((Book)obj).getBooks().toString(), Toast.LENGTH_SHORT).show();
             }
-            mPorgress.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
         }
 
         @Override
         public void onError(String result) {
             Toast.makeText(MainActivity.this,result, Toast.LENGTH_SHORT).show();
-            mPorgress.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_layout);
         mContext = getApplicationContext();
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        mPorgress = (ProgressBar) findViewById(R.id.progress);
         mFragment = new MovieFragment();
-        NavigationView navigation = (NavigationView)findViewById(R.id.navigation_view);
-        navigation.setItemIconTintList(null);
-        navigation.getHeaderView(0).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(mContext, "SUPER MARIO!!!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getTitle().equals("电影")) {
-                    FragmentTransaction tt = getFragmentManager().beginTransaction();
-                    tt.add(R.id.container, mFragment);
-                    tt.commit();
-                    mBookPresenter.getTopMovie(0, 50);
-                } else if (item.getTitle().equals("书籍")) {
-                    mBookPresenter.getSearchBooks("金瓶梅", null, 0, 1);
-                }
-                mPorgress.setVisibility(View.VISIBLE);
-                mDataType = item.getTitle().toString();
-                mDrawerLayout.closeDrawers();
-                return true;
-            }
-        });
-
+        initView();
+        initFragment();
         mBookPresenter.onCreate();
         mBookPresenter.onAttachView(mBookView);
 
@@ -144,6 +125,45 @@ public class MainActivity extends AppCompatActivity {
 //                mBookPresenter.getSearchBooks("金瓶梅", null, 0, 1);
 //            }
 //        });
+    }
+
+    private void initFragment() {
+
+    }
+
+    private void initView() {
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress);
+        // set fancy typeface
+        NavigationView navigation = (NavigationView)findViewById(R.id.navigation_view);
+        navigation.setItemIconTintList(null);
+        navigation.getHeaderView(0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "SUPER MARIO!!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getTitle().equals("电影")) {
+                    FragmentTransaction tt = getFragmentManager().beginTransaction();
+                    tt.add(R.id.container, mFragment);
+                    tt.commit();
+                    mBookPresenter.getTopMovie(0, 50);
+                } else if (item.getTitle().equals("书籍")) {
+                    mBookPresenter.getSearchBooks("金瓶梅", null, 0, 1);
+                } else if (item.getTitle().equals("拍照")) {
+                    FragmentTransaction tt = getFragmentManager().beginTransaction();
+                    tt.add(R.id.container, CameraFragment.newInstance());
+                    tt.commit();
+                }
+                mProgressBar.setVisibility(View.VISIBLE);
+                mDataType = item.getTitle().toString();
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
+        });
     }
 
 }

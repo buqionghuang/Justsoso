@@ -1,6 +1,7 @@
 package com.example.huangbuqiong.rrtest.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,10 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.huangbuqiong.rrtest.R;
 import com.example.huangbuqiong.rrtest.service.entity.Movie;
-
-import java.util.List;
 
 /**
  * Created by huangbuqiong on 2017/10/17.
@@ -25,9 +25,11 @@ public class MovieFragment extends Fragment {
     private RecyclerView mMovieList;
     private Movie mMovie;
     private Adapter mAdapter;
+    private Context mContext;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getActivity();
     }
 
     @Nullable
@@ -42,6 +44,7 @@ public class MovieFragment extends Fragment {
         mMovieList.setAdapter(mAdapter);
         return view;
     }
+
     public void setData (Movie movie) {
         mMovie = movie;
         mAdapter.notifyDataSetChanged();
@@ -61,6 +64,7 @@ public class MovieFragment extends Fragment {
             holder.average.setText(sub.getRating().getAverage()+"");
             holder.director.setText(sub.getDirectors().get(0).getName());
             holder.type.setText(sub.getSubtype());
+            Glide.with(mContext).load(sub.getImages().getSmall()).into(holder.img);
         }
 
         @Override
