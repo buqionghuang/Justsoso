@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tt="http://tuhu.android.TextView"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/rx_r"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="RxJava + Retrofit"/>
+    <Button
+        android:id="@+id/pic_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="图片编辑"/>
+
+
+    <com.example.huangbuqiong.rrtest.view.XTextView
+        android:id="@+id/text_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tt:layout_marginLeft="50dp"
+        tt:textSize="20sp"
+        tt:textColor="#000000"
+        android:text="kjhfkashdfhlaslkdfhalshfdkjasgfkjasndroid  微信-E-FDSAKHFAJ9ORER02  HKS00-----WDJWLKRJWR-W-E-SREWQ-RER-QWER-Q-WER   0-ER-       ER-是怎么解决TextView  排版问题gfklasgfklasgfasglkjfga"
+        />
+</LinearLayout>
